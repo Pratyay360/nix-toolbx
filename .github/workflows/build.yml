@@ -2,6 +2,7 @@ name: Build and Push Container
 
 on:
   push:
+    branches: [main, master]
   workflow_dispatch:
 
 permissions:
@@ -10,19 +11,18 @@ permissions:
   id-token: write
   attestations: write
 
-env:
-  IMAGE_NAME: ${{ github.event.repository.name }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@main
+
       - name: Install Buildah and Podman
         run: |
           sudo apt-get update
           sudo apt-get install -y buildah podman
+
       - name: Build Image
         uses: redhat-actions/buildah-build@main
         id: build
@@ -34,7 +34,6 @@ jobs:
             ${{ github.ref_name }}
           containerfiles: |
             ./Containerfile
-
 
       - name: Login to GHCR
         uses: redhat-actions/podman-login@main
@@ -51,8 +50,8 @@ jobs:
           image: ${{ github.repository }}
           tags: ${{ steps.build.outputs.tags }}
 
-
       - name: Login to Docker Hub
+        if: ${{ secrets.DOCKER_USERNAME != '' }}
         uses: redhat-actions/podman-login@main
         with:
           registry: docker.io
@@ -60,14 +59,15 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push to Docker Hub
+        if: ${{ secrets.DOCKER_USERNAME != '' }}
         uses: redhat-actions/push-to-registry@main
         with:
           registry: docker.io
           image: ${{ github.repository }}
           tags: ${{ steps.build.outputs.tags }}
 
-
       - name: Login to Quay
+        if: ${{ secrets.QUAY_USERNAME != '' }}
         uses: redhat-actions/podman-login@main
         with:
           registry: quay.io
@@ -75,12 +75,12 @@ jobs:
           password: ${{ secrets.QUAY_PASSWORD }}
 
       - name: Push to Quay
-        uses: redhat-actions/push-to-registry@main
+        if: ${{ secrets.QUAY_USERNAME != '' }}
+        uses: redhat-actions/push-to-registry@v2
         with:
           registry: quay.io
           image: ${{ github.repository }}
           tags: ${{ steps.build.outputs.tags }}
-
 
       - name: Generate Provenance
         uses: actions/attest-build-provenance@main
