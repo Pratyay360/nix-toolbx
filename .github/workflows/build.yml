@@ -69,12 +69,9 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.build.outputs.tags }}
 
-      # ─────────────────────────────────────────────
-      # Supply-chain provenance
-      # ─────────────────────────────────────────────
 
       - name: Generate provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@main
         with:
           subject-name: ghcr.io/${{ env.IMAGE_NAME }}
           subject-digest: ${{ steps.ghcr.outputs.digest }}

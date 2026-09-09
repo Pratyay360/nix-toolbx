@@ -13,7 +13,7 @@ COPY nix.conf /etc/nix/nix.conf
 RUN nix-channel --update && \
     nix-env -q && \
     (nix-env -e git-minimal git || true) && \
-    nix-env -iA nixpkgs.nix nixpkgs.coreutils nixpkgs.bashInteractive nixpkgs.zsh nixpkgs.git nixpkgs.flatpak nixpkgs.flatpak-builder nixpkgs.flatpak-xdg-utils nixpkgs.shadow nixpkgs.sudo
+    nix-env -iA nixpkgs.nix nixpkgs.bash nixpkgs.coreutils nixpkgs.bashInteractive nixpkgs.zsh nixpkgs.git nixpkgs.flatpak nixpkgs.flatpak-builder nixpkgs.flatpak-xdg-utils nixpkgs.shadow nixpkgs.sudo
 
 RUN mkdir -p /etc/sudoers.d && \
     grep -q '^wheel:' /etc/group || echo 'wheel:x:10:' >> /etc/group && \
