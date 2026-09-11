@@ -12,7 +12,7 @@ COPY nix.conf /etc/nix/nix.conf
 
 COPY extra-packages /
 RUN nix-channel --update && \
-    cat /extra-packages | xargs nix-env -iA
+    xargs -a /extra-packages nix profile install --impure --priority 5
 
 RUN rm /extra-packages
 
