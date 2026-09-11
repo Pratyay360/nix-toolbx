@@ -13,7 +13,6 @@ nixpkgs#iproute2
 nixpkgs#iputils
 nixpkgs#keyutils
 nixpkgs#libcap
-nixpkgs#man-pages
 nixpkgs#ncurses
 nixpkgs#net-tools
 nixpkgs#openssh

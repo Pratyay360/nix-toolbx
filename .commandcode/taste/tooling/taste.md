@@ -1,0 +1,3 @@
+- Works on Nix-based toolbox container images (toolbx-nix) using Containerfile + `nix profile install --impure --priority 5` pattern for extra-packages list. Confidence: 0.85
+- When resolving Nix package collisions at equal priorities, prefers dropping the redundant/non-essential package (e.g. drop `man-pages` when `shadow` ships its own) over using priority overrides to keep both. Confidence: 0.75
+- For package selection in container images, prioritizes functional/core packages (user management, shell tools) over documentation-completeness packages. Confidence: 0.7

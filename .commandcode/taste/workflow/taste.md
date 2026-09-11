@@ -1,0 +1,2 @@
+- When debugging build failures, inspect the actual repo files (Containerfile, package lists) to ground the fix in real config rather than guessing from error output alone. Confidence: 0.8
+- Prefers minimal, surgical edits to package lists/configs over adding complexity (priority flags, overrides) to preserve both conflicting packages. Confidence: 0.75
