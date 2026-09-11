@@ -12,7 +12,6 @@ nixpkgs#gnupg
 nixpkgs#iproute2
 nixpkgs#iputils
 nixpkgs#keyutils
-nixpkgs#less
 nixpkgs#libcap
 nixpkgs#man-pages
 nixpkgs#ncurses
