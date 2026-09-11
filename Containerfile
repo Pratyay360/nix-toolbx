@@ -12,8 +12,10 @@ COPY nix.conf /etc/nix/nix.conf
 
 COPY extra-packages /
 RUN nix-channel --update && \
-    grep -v '^nixpkgs#util-linux$' /extra-packages | xargs nix profile install --impure --priority 5 && \
-    nix profile install --impure --priority 6 nixpkgs#util-linux
+    xargs -a /extra-packages nix profile install --impure --priority 5 && \
+    nix profile install --impure --priority 6 \
+      nixpkgs#util-linux \
+      nixpkgs#procps
 
 RUN rm /extra-packages
 
