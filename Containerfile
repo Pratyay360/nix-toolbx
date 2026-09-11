@@ -14,9 +14,8 @@ COPY extra-packages /
 RUN nix-channel --update && \
     grep -v -E '^(nixpkgs#util-linux|nixpkgs#procps)$' /extra-packages \
       | xargs nix profile install --impure --priority 5 && \
-    nix profile install --impure --priority 6 \
-      nixpkgs#util-linux \
-      nixpkgs#procps
+    nix profile install --impure --priority 6 nixpkgs#procps && \
+    nix profile install --impure --priority 7 nixpkgs#util-linux
 
 RUN rm /extra-packages
 
